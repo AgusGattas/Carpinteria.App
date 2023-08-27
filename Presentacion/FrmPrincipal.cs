@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CarpinteriaApp_1w3.Presentacion;
 
 namespace CarpinteriaApp_1w3
 {
@@ -15,6 +16,12 @@ namespace CarpinteriaApp_1w3
         public FrmPrincipal()
         {
             InitializeComponent();
+        }
+
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmNuevoPresupuesto nuevo = new FrmNuevoPresupuesto();
+            nuevo.ShowDialog();
         }
     }
 }
