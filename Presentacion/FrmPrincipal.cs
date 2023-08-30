@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using CarpinteriaApp_1w3.Presentacion;
 
 namespace CarpinteriaApp_1w3
@@ -22,6 +23,11 @@ namespace CarpinteriaApp_1w3
         {
             FrmNuevoPresupuesto nuevo = new FrmNuevoPresupuesto();
             nuevo.ShowDialog();
+        }
+
+        private void FrmPrincipal_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
