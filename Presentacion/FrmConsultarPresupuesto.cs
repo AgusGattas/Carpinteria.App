@@ -32,7 +32,7 @@ namespace CarpinteriaApp_1w3.Presentacion
             lista.Add(new Parametro("@fecha_hasta", dtpHasta.Value));
             lista.Add(new Parametro("@cliente", txtCliente.Text));
 
-            DataTable tabla = new DBHelper().Consultar("SP_CONSULTAR_PRESUPUESTOS", lista);
+            DataTable tabla = new DBHelper().Consultar("SP_CONSULTAR_PRESUPUESTO", lista);
 
             dgvPresupuestos.Rows.Clear();
             foreach (DataRow fila in tabla.Rows)
