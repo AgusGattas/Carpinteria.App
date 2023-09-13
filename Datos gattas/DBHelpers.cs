@@ -9,122 +9,217 @@ using System.Threading.Tasks;
 
 namespace CarpinteriaApp_1w3.datos
 {
-    internal class DBHelper
+    class DBHelper
     {
+        private static DBHelper instancia;
         private SqlConnection cnn;
-        public DBHelper()
+
+        private DBHelper()
         {
-            cnn = new SqlConnection(@"Data Source=LAPTOP-4G4CHMLJ\SQLEXPRESS;Initial Catalog=Carpinteria_2023;Integrated Security=True");
+            cnn = new SqlConnection(Properties.Resources.cnnString);
         }
 
-        public int ProximoPresupuesto()
+        
+        public DataTable ConsultaSQL(string spNombre, List<Parametro> values)
         {
-            cnn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "SP_PROXIMO_ID";
-            SqlParameter param = new SqlParameter();
-            param.ParameterName = "@next";
-            param.SqlDbType = SqlDbType.Int;
-            param.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(param);
-            cmd.ExecuteNonQuery();
-            cnn.Close();
-            return (int)param.Value;
-        }
-
-        public DataTable Consultar(string sp)
-        {
-            cnn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = sp;
             DataTable tabla = new DataTable();
-            tabla.Load(cmd.ExecuteReader());
-            cnn.Close();
-            return tabla;
-        }
 
-        public DataTable Consultar(string sp, List<Parametro> lstParametros)
-        {
             cnn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cnn;
+            SqlCommand cmd = new SqlCommand(spNombre, cnn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = sp;
-
-            foreach (Parametro p in lstParametros)
+            if (values != null)
             {
-                cmd.Parameters.AddWithValue(p.Nombre, p.Valor);
+                foreach (Parametro oParametro in values)
+                {
+                    cmd.Parameters.AddWithValue(oParametro.Clave, oParametro.Valor);
+                }
             }
-
-            DataTable tabla = new DataTable();
             tabla.Load(cmd.ExecuteReader());
             cnn.Close();
+
             return tabla;
         }
 
-        public bool ConfirmarPresupuesto(Presupuesto presupuesto)
+
+
+        public int EjecutarSQL(string strSql, List<Parametro> values)
         {
-            bool res = true;
+            int afectadas = 0;
             SqlTransaction t = null;
 
             try
             {
+                SqlCommand cmd = new SqlCommand();
                 cnn.Open();
                 t = cnn.BeginTransaction();
-                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = strSql;
+                cmd.Transaction = t;
+
+                if (values != null)
+                {
+                    foreach (Parametro param in values)
+                    {
+                        cmd.Parameters.AddWithValue(param.Clave, param.Valor);
+                    }
+                }
+
+                afectadas = cmd.ExecuteNonQuery();
+                t.Commit();
+            }
+            catch (SqlException)
+            {
+                if (t != null) { t.Rollback(); }
+            }
+            finally
+            {
+                if (cnn != null && cnn.State == ConnectionState.Open)
+                    cnn.Close();
+
+            }
+
+            return afectadas;
+        }
+
+        public int ProximoPresupuesto()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cnn.Open();
+            cmd.Connection = cnn;
+            cmd.CommandText = "SP_PROXIMO_ID";
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlParameter pOut = new SqlParameter();
+            pOut.ParameterName = "@next";
+            pOut.DbType = DbType.Int32;
+            pOut.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(pOut);
+            cmd.ExecuteNonQuery();
+
+            cnn.Close();
+            return (int)pOut.Value;
+
+        }
+
+        public bool ConfirmarPresupuesto(Presupuesto oPresupuesto)
+        {
+            bool ok = true;
+            SqlTransaction t = null;
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                cnn.Open();
+                t = cnn.BeginTransaction();
                 cmd.Connection = cnn;
                 cmd.Transaction = t;
-                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "SP_INSERTAR_MAESTRO";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@cliente", oPresupuesto.Cliente);
+                cmd.Parameters.AddWithValue("@dto", oPresupuesto.Descuento);
+                cmd.Parameters.AddWithValue("@total", oPresupuesto.CalcularTotalConDescuento());
 
-
-                //param entrada
-                cmd.Parameters.AddWithValue("@cliente", presupuesto.Cliente);
-                cmd.Parameters.AddWithValue("@dto", presupuesto.Descuento);
-                cmd.Parameters.AddWithValue("@total", presupuesto.CalcularTotal());
-
-                //param salida
-                SqlParameter param = new SqlParameter();
-                param.ParameterName = "@presupuestro_nro";
-                param.SqlDbType = SqlDbType.Int;
-                param.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(param);
+                //parámetro de salida:
+                SqlParameter pOut = new SqlParameter();
+                pOut.ParameterName = "@presupuesto_nro";
+                pOut.DbType = DbType.Int32;
+                pOut.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(pOut);
                 cmd.ExecuteNonQuery();
 
-                int nroPresupuesto = (int)param.Value;
-                int nroDetalle = 1;
+                int presupuestoNro = (int)pOut.Value;
 
-                SqlCommand cmdDet;
-                foreach (DetallePresupuesto dp in presupuesto.Detalles)
+                SqlCommand cmdDetalle;
+                int detalleNro = 1;
+                foreach (DetallePresupuesto item in oPresupuesto.Detalles)
                 {
-                    cmdDet = new SqlCommand("SP_INSERTAR_DETALLE", cnn, t);
-                    cmdDet.CommandType = CommandType.StoredProcedure;
-                    cmdDet.Parameters.AddWithValue("@presupuesto_nro", nroPresupuesto);
-                    cmdDet.Parameters.AddWithValue("@detalle", ++nroDetalle);
-                    cmdDet.Parameters.AddWithValue("@id_producto", dp.Producto.ProductoNro);
-                    cmdDet.Parameters.AddWithValue("@cantidad", dp.Cantidad);
-                    nroDetalle++;
-                    cmdDet.ExecuteNonQuery();
+                    cmdDetalle = new SqlCommand("SP_INSERTAR_DETALLE", cnn, t);
+                    cmdDetalle.CommandType = CommandType.StoredProcedure;
+                    cmdDetalle.Parameters.AddWithValue("@presupuesto_nro", presupuestoNro);
+                    cmdDetalle.Parameters.AddWithValue("@detalle", detalleNro);
+                    cmdDetalle.Parameters.AddWithValue("@id_producto", item.Producto.ProductoNro);
+                    cmdDetalle.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                    cmdDetalle.ExecuteNonQuery();
+
+                    detalleNro++;
                 }
                 t.Commit();
             }
-            catch
+
+            catch (Exception)
             {
                 if (t != null)
                     t.Rollback();
-                res = false;
+                ok = false;
             }
+
             finally
             {
                 if (cnn != null && cnn.State == ConnectionState.Open)
                     cnn.Close();
             }
 
-            return res;
+            return ok;
         }
+        public bool ModificarPresupuesto(Presupuesto oPresupuesto)
+        {
+            bool ok = true;
+            SqlTransaction t = null;
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                cnn.Open();
+                t = cnn.BeginTransaction();
+                cmd.Connection = cnn;
+                cmd.Transaction = t;
+                cmd.CommandText = "SP_MODIFICAR_MAESTRO";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@cliente", oPresupuesto.Cliente);
+                cmd.Parameters.AddWithValue("@dto", oPresupuesto.Descuento);
+                cmd.Parameters.AddWithValue("@total", oPresupuesto.CalcularTotalConDescuento());
+                cmd.Parameters.AddWithValue("@presupuesto_nro", oPresupuesto.PresupuestoNro);
+                cmd.ExecuteNonQuery();
+
+                SqlCommand cmdDetalle;
+                int detalleNro = 1;
+                foreach (DetallePresupuesto item in oPresupuesto.Detalles)
+                {
+                    cmdDetalle = new SqlCommand("SP_INSERTAR_DETALLE", cnn, t);
+                    cmdDetalle.CommandType = CommandType.StoredProcedure;
+                    cmdDetalle.Parameters.AddWithValue("@presupuesto_nro", oPresupuesto.PresupuestoNro);
+                    cmdDetalle.Parameters.AddWithValue("@detalle", detalleNro);
+                    cmdDetalle.Parameters.AddWithValue("@id_producto", item.Producto.ProductoNro);
+                    cmdDetalle.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                    cmdDetalle.ExecuteNonQuery();
+
+                    detalleNro++;
+                }
+                t.Commit();
+            }
+
+            catch (Exception)
+            {
+                if (t != null)
+                    t.Rollback();
+                ok = false;
+            }
+
+            finally
+            {
+                if (cnn != null && cnn.State == ConnectionState.Open)
+                    cnn.Close();
+            }
+
+            return ok;
+        }
+
+        
+        
+            public static DBHelper ObtenerInstancia()
+            {
+                if (instancia == null)
+                    instancia = new DBHelper();
+                return instancia;
+            }
+        
     }
 }

@@ -33,7 +33,6 @@ C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.csproj.Ge
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.csproj.CoreCompileInputs.cache
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.exe
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.pdb
-C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.Presentacion.FrmConsultarPresupuesto.resources
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\SqlServerTypes\x64\msvcr120.dll
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\SqlServerTypes\x64\SqlServerSpatial140.dll
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\SqlServerTypes\x86\msvcr120.dll
@@ -95,3 +94,6 @@ C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\zh-CHT\Microsoft.ReportViewe
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\zh-HANS\Microsoft.ReportViewer.WinForms.resources.dll
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\bin\Debug\zh-HANT\Microsoft.ReportViewer.WinForms.resources.dll
 C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.csproj.CopyComplete
+C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp_1w3.Presentacion.FrmConsultarPresupuestos.resources
+C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp.formularios.FrmDetallesPresupuesto.resources
+C:\Users\santi\Desktop\CarpinteriaApp_1w3\obj\Debug\CarpinteriaApp.formularios.FrmModificarPresupuesto.resources

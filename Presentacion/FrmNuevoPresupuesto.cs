@@ -15,128 +15,125 @@ namespace CarpinteriaApp_1w3.Presentacion
 {
     public partial class FrmNuevoPresupuesto : Form
     {
-        DBHelper gestor = null;
-        Presupuesto nuevo = null;
+        private DBHelper helper;
+        private Presupuesto nuevo;
         public FrmNuevoPresupuesto()
         {
             InitializeComponent();
+            helper = DBHelper.ObtenerInstancia();
+            CargarProductos();
+            //Crear nuevo presupuesto:
             nuevo = new Presupuesto();
-            gestor = new DBHelper();
         }
 
         private void FrmNuevoPresupuesto_Load(object sender, EventArgs e)
         {
-            lblPresupuestoNro.Text = lblPresupuestoNro.Text + " " + gestor.ProximoPresupuesto().ToString();
-
-            CargarProductos();
-            txtFecha.Text = DateTime.Today.ToString("dd/MM/yyyy");
-            txtCliente.Text = "Consumidor Final";
+            ProximoPresupuesto();
+            txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            txtCliente.Text = "CONSUMIDOR FINAL";
             txtDescuento.Text = "0";
-            txtCantidad.Text = "1";
-        }
-
-        private void CargarProductos()
-        {
-            DataTable tabla = gestor.Consultar("SP_CONSULTAR_PRODUCTOS");
-
-            cboProducto.DataSource = tabla;
-            cboProducto.ValueMember = tabla.Columns[0].ColumnName;
-            cboProducto.DisplayMember = tabla.Columns[1].ColumnName;
+            this.ActiveControl = cboProducto; // Set foco al combo
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (cboProducto.SelectedIndex == -1)
+            if (cboProducto.Text.Equals(String.Empty))
             {
-                MessageBox.Show("Debe seleccionar un producto", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Debe seleccionar un PRODUCTO!", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (String.IsNullOrEmpty(txtCantidad.Text) || !int.TryParse(txtCantidad.Text, out _))
+            if (txtCantidad.Text == "" || !int.TryParse(txtCantidad.Text, out _))
             {
-                MessageBox.Show("Debe ingresar una cantidad valida", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Debe ingresar una cantidad válida!", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            foreach (DataGridViewRow fila in dgvDetalles.Rows)
+
+            foreach (DataGridViewRow row in dgvDetalles.Rows)
             {
-                if (fila.Cells["ColProducto"].Value.ToString().Equals(cboProducto.Text))
+                if (row.Cells["colProd"].Value.ToString().Equals(cboProducto.Text))
                 {
-                    MessageBox.Show("Producto ya presupuestado", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("PRODUCTO: " + cboProducto.Text + " ya se encuentra como detalle!", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
+
                 }
             }
 
             DataRowView item = (DataRowView)cboProducto.SelectedItem;
 
-            int nro = Convert.ToInt32(item.Row.ItemArray[0]);
+            int prod = Convert.ToInt32(item.Row.ItemArray[0]);
             string nom = item.Row.ItemArray[1].ToString();
             double pre = Convert.ToDouble(item.Row.ItemArray[2]);
+            Producto p = new Producto(prod, nom, pre);
+            int cantidad = Convert.ToInt32(txtCantidad.Text);
 
-            Producto p = new Producto(nro, nom, pre);
-
-            int cant = Convert.ToInt32(txtCantidad.Text);
-            DetallePresupuesto detalle = new DetallePresupuesto(p, cant);
+            DetallePresupuesto detalle = new DetallePresupuesto(p, cantidad);
             nuevo.AgregarDetalle(detalle);
-            dgvDetalles.Rows.Add(p.ProductoNro, p.Nombre, p.Precio, txtCantidad.Text, "Borrar");
+            dgvDetalles.Rows.Add(new object[] { item.Row.ItemArray[0], item.Row.ItemArray[1], item.Row.ItemArray[2], txtCantidad.Text });
 
-            CalcularTotales();
-        }
-
-        private void CalcularTotales()
-        {
-            {
-                txtSubTotal.Text = nuevo.CalcularTotal().ToString();
-                if (!string.IsNullOrEmpty(txtDescuento.Text) && int.TryParse(txtDescuento.Text, out _))
-                {
-                    double desc = nuevo.CalcularTotal() * Convert.ToDouble(txtDescuento.Text) / 100;
-                    txtTotal.Text = (nuevo.CalcularTotal() - desc).ToString();
-                }
-            }
+            CalcularTotal();
         }
 
         private void dgvDetalles_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvDetalles.CurrentCell.ColumnIndex == 4) //boton Quitar de la grilla
+            if (dgvDetalles.CurrentCell.ColumnIndex == 4)
             {
                 nuevo.QuitarDetalle(dgvDetalles.CurrentRow.Index);
-                dgvDetalles.Rows.RemoveAt(dgvDetalles.CurrentRow.Index);
-                CalcularTotales();
+                //click button:
+                dgvDetalles.Rows.Remove(dgvDetalles.CurrentRow);
+                //presupuesto.quitarDetalle();
+                CalcularTotal();
+
             }
         }
 
-        private void btnAceptar_Click_1(object sender, EventArgs e)
+        private void CalcularTotal()
         {
-            //validar
-            if (string.IsNullOrEmpty(txtCliente.Text))
-            {
-                MessageBox.Show("Debe ingresar un Cliente", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            if (dgvDetalles.Rows.Count == 0)
-            {
-                MessageBox.Show("Debe ingresar al menos un producto", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            double total = nuevo.CalcularTotal();
+            txtTotal.Text = total.ToString();
 
-            //grabar presupuesto
-            GrabarPresupuesto();
+            if (txtDescuento.Text != "")
+            {
+                double dto = (total * Convert.ToDouble(txtDescuento.Text)) / 100;
+                txtTotal.Text = (total - dto).ToString();
+            }
         }
 
-        private void GrabarPresupuesto()
+        private void CargarProductos()
         {
-            nuevo.Fecha = Convert.ToDateTime(txtFecha.Text);
+            DataTable table = helper.ConsultaSQL("SP_CONSULTAR_PRODUCTOS", null);
+            if (table != null)
+            {
+                cboProducto.DataSource = table;
+                cboProducto.DisplayMember = "n_producto";
+                cboProducto.ValueMember = "id_producto";
+            }
+        }
+        private void ProximoPresupuesto()
+        {
+            int next = helper.ProximoPresupuesto();
+            if (next > 0)
+                lblPresupuestoNro.Text = "Presupuesto Nº: " + next.ToString();
+            else
+                MessageBox.Show("Error de datos. No se puede obtener Nº de presupuesto!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void GuardarPresupuesto()
+        {
+            //datos del presupuesto:
             nuevo.Cliente = txtCliente.Text;
             nuevo.Descuento = Convert.ToDouble(txtDescuento.Text);
+            nuevo.Fecha = Convert.ToDateTime(txtFecha.Text);
 
-            if (gestor.ConfirmarPresupuesto(nuevo))
+            if (helper.ConfirmarPresupuesto(nuevo))
             {
-                MessageBox.Show("El presupuesto se confirmo con exito", "Infirme", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Presupuesto registrado", "Informe", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
             }
             else
             {
-                MessageBox.Show("No se pudo registrar el presupuesto", "Infirme", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR. No se pudo registrar el presupuesto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -145,6 +142,23 @@ namespace CarpinteriaApp_1w3.Presentacion
             this.Dispose();
         }
 
-        
+        private void btnAceptar_Click_1(object sender, EventArgs e)
+        {
+            if (txtCliente.Text == "")
+            {
+                MessageBox.Show("Debe ingresar un cliente!", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (dgvDetalles.Rows.Count == 0)
+            {
+                MessageBox.Show("Debe ingresar al menos detalle!", "Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            GuardarPresupuesto();
+        }
     }
+
+
 }
+

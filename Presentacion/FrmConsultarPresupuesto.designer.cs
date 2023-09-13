@@ -1,6 +1,6 @@
 ﻿namespace CarpinteriaApp_1w3.Presentacion
 {
-    partial class FrmConsultarPresupuesto
+    partial class FrmConsultarPresupuestos
     {
         /// <summary>
         /// Required designer variable.
@@ -28,109 +28,100 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbFiltros = new System.Windows.Forms.GroupBox();
-            this.btnConsultar = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
-            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
+            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
+            this.btnConsultar = new System.Windows.Forms.Button();
             this.dgvPresupuestos = new System.Windows.Forms.DataGridView();
-            this.ColNro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColAcciones = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btnEditar = new System.Windows.Forms.Button();
-            this.btnBorrar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.gbFiltros.SuspendLayout();
+            this.BtnEditar = new System.Windows.Forms.Button();
+            this.btnBorrar = new System.Windows.Forms.Button();
+            this.colNro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDetalles = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPresupuestos)).BeginInit();
             this.SuspendLayout();
             // 
-            // gbFiltros
+            // groupBox1
             // 
-            this.gbFiltros.Controls.Add(this.btnConsultar);
-            this.gbFiltros.Controls.Add(this.txtCliente);
-            this.gbFiltros.Controls.Add(this.label3);
-            this.gbFiltros.Controls.Add(this.dtpHasta);
-            this.gbFiltros.Controls.Add(this.label2);
-            this.gbFiltros.Controls.Add(this.dtpDesde);
-            this.gbFiltros.Controls.Add(this.label1);
-            this.gbFiltros.Location = new System.Drawing.Point(16, 15);
-            this.gbFiltros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbFiltros.Size = new System.Drawing.Size(916, 202);
-            this.gbFiltros.TabIndex = 7;
-            this.gbFiltros.TabStop = false;
-            this.gbFiltros.Text = "Filtros";
-            // 
-            // btnConsultar
-            // 
-            this.btnConsultar.Location = new System.Drawing.Point(781, 118);
-            this.btnConsultar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnConsultar.Name = "btnConsultar";
-            this.btnConsultar.Size = new System.Drawing.Size(100, 28);
-            this.btnConsultar.TabIndex = 13;
-            this.btnConsultar.Text = "Consultar";
-            this.btnConsultar.UseVisualStyleBackColor = true;
-            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
+            this.groupBox1.Controls.Add(this.txtCliente);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.dtpHasta);
+            this.groupBox1.Controls.Add(this.dtpDesde);
+            this.groupBox1.Controls.Add(this.btnConsultar);
+            this.groupBox1.Location = new System.Drawing.Point(12, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(608, 114);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Filtros";
             // 
             // txtCliente
             // 
-            this.txtCliente.Location = new System.Drawing.Point(139, 122);
-            this.txtCliente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCliente.Location = new System.Drawing.Point(88, 76);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(447, 22);
-            this.txtCliente.TabIndex = 12;
+            this.txtCliente.Size = new System.Drawing.Size(350, 20);
+            this.txtCliente.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 122);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(42, 77);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 16);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Cliente";
-            // 
-            // dtpHasta
-            // 
-            this.dtpHasta.Location = new System.Drawing.Point(615, 74);
-            this.dtpHasta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(265, 22);
-            this.dtpHasta.TabIndex = 10;
+            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Cliente:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(516, 74);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(227, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 16);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Fecha Hasta";
-            // 
-            // dtpDesde
-            // 
-            this.dtpDesde.Location = new System.Drawing.Point(137, 74);
-            this.dtpDesde.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(265, 22);
-            this.dtpDesde.TabIndex = 8;
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Hasta:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 74);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(7, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 16);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Fecha Desde";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Fecha Desde:";
+            // 
+            // dtpHasta
+            // 
+            this.dtpHasta.Location = new System.Drawing.Point(271, 38);
+            this.dtpHasta.Name = "dtpHasta";
+            this.dtpHasta.Size = new System.Drawing.Size(167, 20);
+            this.dtpHasta.TabIndex = 2;
+            // 
+            // dtpDesde
+            // 
+            this.dtpDesde.Location = new System.Drawing.Point(87, 38);
+            this.dtpDesde.Name = "dtpDesde";
+            this.dtpDesde.Size = new System.Drawing.Size(134, 20);
+            this.dtpDesde.TabIndex = 1;
+            // 
+            // btnConsultar
+            // 
+            this.btnConsultar.Location = new System.Drawing.Point(500, 72);
+            this.btnConsultar.Name = "btnConsultar";
+            this.btnConsultar.Size = new System.Drawing.Size(102, 23);
+            this.btnConsultar.TabIndex = 0;
+            this.btnConsultar.Text = "Consultar";
+            this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
             // dgvPresupuestos
             // 
@@ -138,107 +129,100 @@
             this.dgvPresupuestos.AllowUserToDeleteRows = false;
             this.dgvPresupuestos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPresupuestos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColNro,
-            this.ColFecha,
-            this.ColCliente,
-            this.ColTotal,
-            this.ColAcciones});
-            this.dgvPresupuestos.Location = new System.Drawing.Point(55, 186);
-            this.dgvPresupuestos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.colNro,
+            this.colFecha,
+            this.colCliente,
+            this.colTotal,
+            this.colDetalles});
+            this.dgvPresupuestos.Location = new System.Drawing.Point(12, 133);
             this.dgvPresupuestos.Name = "dgvPresupuestos";
             this.dgvPresupuestos.ReadOnly = true;
-            this.dgvPresupuestos.RowHeadersVisible = false;
-            this.dgvPresupuestos.RowHeadersWidth = 51;
-            this.dgvPresupuestos.Size = new System.Drawing.Size(939, 294);
-            this.dgvPresupuestos.TabIndex = 8;
-            // 
-            // ColNro
-            // 
-            this.ColNro.HeaderText = "Presupuesto N";
-            this.ColNro.MinimumWidth = 6;
-            this.ColNro.Name = "ColNro";
-            this.ColNro.ReadOnly = true;
-            this.ColNro.Width = 125;
-            // 
-            // ColFecha
-            // 
-            this.ColFecha.HeaderText = "Fecha";
-            this.ColFecha.MinimumWidth = 6;
-            this.ColFecha.Name = "ColFecha";
-            this.ColFecha.ReadOnly = true;
-            this.ColFecha.Width = 125;
-            // 
-            // ColCliente
-            // 
-            this.ColCliente.HeaderText = "Cliente";
-            this.ColCliente.MinimumWidth = 6;
-            this.ColCliente.Name = "ColCliente";
-            this.ColCliente.ReadOnly = true;
-            this.ColCliente.Width = 200;
-            // 
-            // ColTotal
-            // 
-            this.ColTotal.HeaderText = "Total";
-            this.ColTotal.MinimumWidth = 6;
-            this.ColTotal.Name = "ColTotal";
-            this.ColTotal.ReadOnly = true;
-            this.ColTotal.Width = 125;
-            // 
-            // ColAcciones
-            // 
-            this.ColAcciones.HeaderText = "Accion";
-            this.ColAcciones.MinimumWidth = 6;
-            this.ColAcciones.Name = "ColAcciones";
-            this.ColAcciones.ReadOnly = true;
-            this.ColAcciones.Width = 125;
-            // 
-            // btnEditar
-            // 
-            this.btnEditar.Location = new System.Drawing.Point(55, 498);
-            this.btnEditar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(100, 28);
-            this.btnEditar.TabIndex = 14;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
-            // 
-            // btnBorrar
-            // 
-            this.btnBorrar.Location = new System.Drawing.Point(188, 498);
-            this.btnBorrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnBorrar.Name = "btnBorrar";
-            this.btnBorrar.Size = new System.Drawing.Size(100, 28);
-            this.btnBorrar.TabIndex = 15;
-            this.btnBorrar.Text = "Borrar";
-            this.btnBorrar.UseVisualStyleBackColor = true;
+            this.dgvPresupuestos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPresupuestos.Size = new System.Drawing.Size(608, 230);
+            this.dgvPresupuestos.TabIndex = 1;
+            this.dgvPresupuestos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPresupuestos_CellContentClick);
+            this.dgvPresupuestos.Click += new System.EventHandler(this.dgvPresupuestos_Click);
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(893, 511);
-            this.btnSalir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSalir.Location = new System.Drawing.Point(518, 379);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(100, 28);
-            this.btnSalir.TabIndex = 16;
+            this.btnSalir.Size = new System.Drawing.Size(102, 23);
+            this.btnSalir.TabIndex = 1;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // FrmConsultarPresupuesto
+            // BtnEditar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.BtnEditar.Enabled = false;
+            this.BtnEditar.Location = new System.Drawing.Point(12, 379);
+            this.BtnEditar.Name = "BtnEditar";
+            this.BtnEditar.Size = new System.Drawing.Size(102, 23);
+            this.BtnEditar.TabIndex = 2;
+            this.BtnEditar.Text = "Editar";
+            this.BtnEditar.UseVisualStyleBackColor = true;
+            this.BtnEditar.Click += new System.EventHandler(this.BtnEditar_Click);
+            // 
+            // btnBorrar
+            // 
+            this.btnBorrar.Enabled = false;
+            this.btnBorrar.Location = new System.Drawing.Point(120, 379);
+            this.btnBorrar.Name = "btnBorrar";
+            this.btnBorrar.Size = new System.Drawing.Size(102, 23);
+            this.btnBorrar.TabIndex = 3;
+            this.btnBorrar.Text = "Borrar";
+            this.btnBorrar.UseVisualStyleBackColor = true;
+            this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
+            // 
+            // colNro
+            // 
+            this.colNro.HeaderText = "Presupesto #";
+            this.colNro.Name = "colNro";
+            this.colNro.ReadOnly = true;
+            // 
+            // colFecha
+            // 
+            this.colFecha.HeaderText = "Fecha";
+            this.colFecha.Name = "colFecha";
+            this.colFecha.ReadOnly = true;
+            // 
+            // colCliente
+            // 
+            this.colCliente.HeaderText = "Cliente";
+            this.colCliente.Name = "colCliente";
+            this.colCliente.ReadOnly = true;
+            // 
+            // colTotal
+            // 
+            this.colTotal.HeaderText = "Total";
+            this.colTotal.Name = "colTotal";
+            this.colTotal.ReadOnly = true;
+            // 
+            // colDetalles
+            // 
+            this.colDetalles.HeaderText = "Acciones";
+            this.colDetalles.Name = "colDetalles";
+            this.colDetalles.ReadOnly = true;
+            this.colDetalles.Text = "Ver Detalles";
+            this.colDetalles.UseColumnTextForButtonValue = true;
+            // 
+            // FrmConsultarPresupuestos
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
-            this.Controls.Add(this.btnSalir);
+            this.ClientSize = new System.Drawing.Size(632, 414);
             this.Controls.Add(this.btnBorrar);
-            this.Controls.Add(this.btnEditar);
+            this.Controls.Add(this.BtnEditar);
+            this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.dgvPresupuestos);
-            this.Controls.Add(this.gbFiltros);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "FrmConsultarPresupuesto";
-            this.Text = "ConsultarPresupuesto";
-            this.Load += new System.EventHandler(this.ConsultarPresupuesto_Load);
-            this.gbFiltros.ResumeLayout(false);
-            this.gbFiltros.PerformLayout();
+            this.Controls.Add(this.groupBox1);
+            this.Name = "FrmConsultarPresupuestos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Consultar Presupuestos";
+            this.Load += new System.EventHandler(this.Frm_Consultar_Presupuestos_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPresupuestos)).EndInit();
             this.ResumeLayout(false);
 
@@ -246,22 +230,22 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox gbFiltros;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnConsultar;
+        private System.Windows.Forms.DataGridView dgvPresupuestos;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dtpHasta;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dtpDesde;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dgvPresupuestos;
-        private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnBorrar;
+        private System.Windows.Forms.DateTimePicker dtpHasta;
+        private System.Windows.Forms.DateTimePicker dtpDesde;
         private System.Windows.Forms.Button btnSalir;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColNro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColFecha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColCliente;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColTotal;
-        private System.Windows.Forms.DataGridViewButtonColumn ColAcciones;
+        private System.Windows.Forms.Button BtnEditar;
+        private System.Windows.Forms.Button btnBorrar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFecha;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCliente;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
+        private System.Windows.Forms.DataGridViewButtonColumn colDetalles;
     }
 }

@@ -45,5 +45,18 @@ namespace CarpinteriaApp_1w3.Entidades
             }
             return total;
         }
+
+        internal object CalcularTotalConDescuento()
+        {
+            
+            
+                double final = this.CalcularTotal();
+                if (Descuento > 0)
+                {
+                    final -= final * Descuento / 100;
+                }
+                return final;
+            
+        }
     }
 }

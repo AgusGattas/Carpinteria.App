@@ -8,12 +8,12 @@ namespace CarpinteriaApp_1w3.datos
 {
     public class Parametro
     {
-        public string Nombre { get; set; }
+        public string Clave { get; set; }
         public object Valor { get; set; }
 
-        public Parametro(string nombre, object valor)
+        public Parametro(string clave, object valor)
         {
-            Nombre = nombre;
+            Clave = clave;
             Valor = valor;
         }
     }
