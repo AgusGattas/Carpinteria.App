@@ -35,5 +35,10 @@ namespace CarpinteriaApp_1w3
             FrmConsultarPresupuesto cons = new FrmConsultarPresupuesto();
             cons.ShowDialog();
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace CarpinteriaApp_1w3.datos
             return tabla;
         }
 
-        internal bool ConfirmarPresupuesto(Presupuesto presupuesto)
+        public bool ConfirmarPresupuesto(Presupuesto presupuesto)
         {
             bool res = true;
             SqlTransaction t = null;
@@ -104,7 +104,7 @@ namespace CarpinteriaApp_1w3.datos
                     cmdDet = new SqlCommand("SP_INSERTAR_DETALLE", cnn, t);
                     cmdDet.CommandType = CommandType.StoredProcedure;
                     cmdDet.Parameters.AddWithValue("@presupuesto_nro", nroPresupuesto);
-                    cmdDet.Parameters.AddWithValue("@detalle", nroDetalle);
+                    cmdDet.Parameters.AddWithValue("@detalle", ++nroDetalle);
                     cmdDet.Parameters.AddWithValue("@id_producto", dp.Producto.ProductoNro);
                     cmdDet.Parameters.AddWithValue("@cantidad", dp.Cantidad);
                     nroDetalle++;

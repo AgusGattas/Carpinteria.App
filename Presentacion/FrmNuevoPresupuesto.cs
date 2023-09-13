@@ -15,8 +15,8 @@ namespace CarpinteriaApp_1w3.Presentacion
 {
     public partial class FrmNuevoPresupuesto : Form
     {
-        Presupuesto nuevo;
-        DBHelper gestor;
+        DBHelper gestor = null;
+        Presupuesto nuevo = null;
         public FrmNuevoPresupuesto()
         {
             InitializeComponent();
@@ -29,7 +29,7 @@ namespace CarpinteriaApp_1w3.Presentacion
             lblPresupuestoNro.Text = lblPresupuestoNro.Text + " " + gestor.ProximoPresupuesto().ToString();
 
             CargarProductos();
-            txtFecha.Text = DateTime.Now.ToString();
+            txtFecha.Text = DateTime.Today.ToString("dd/MM/yyyy");
             txtCliente.Text = "Consumidor Final";
             txtDescuento.Text = "0";
             txtCantidad.Text = "1";
@@ -85,10 +85,27 @@ namespace CarpinteriaApp_1w3.Presentacion
 
         private void CalcularTotales()
         {
-            txtSubTotal.Text = nuevo.CalcularTotal().ToString();
+            {
+                txtSubTotal.Text = nuevo.CalcularTotal().ToString();
+                if (!string.IsNullOrEmpty(txtDescuento.Text) && int.TryParse(txtDescuento.Text, out _))
+                {
+                    double desc = nuevo.CalcularTotal() * Convert.ToDouble(txtDescuento.Text) / 100;
+                    txtTotal.Text = (nuevo.CalcularTotal() - desc).ToString();
+                }
+            }
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private void dgvDetalles_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvDetalles.CurrentCell.ColumnIndex == 4) //boton Quitar de la grilla
+            {
+                nuevo.QuitarDetalle(dgvDetalles.CurrentRow.Index);
+                dgvDetalles.Rows.RemoveAt(dgvDetalles.CurrentRow.Index);
+                CalcularTotales();
+            }
+        }
+
+        private void btnAceptar_Click_1(object sender, EventArgs e)
         {
             //validar
             if (string.IsNullOrEmpty(txtCliente.Text))
@@ -123,18 +140,11 @@ namespace CarpinteriaApp_1w3.Presentacion
             }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click_1(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
-        private void dgvDetalles_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dgvDetalles.Columns["ColAccion"].Index)
-            {
-                nuevo.QuitarDetalle(e.RowIndex);
-                dgvDetalles.Rows.RemoveAt(e.RowIndex);
-            }
-        }
+        
     }
 }

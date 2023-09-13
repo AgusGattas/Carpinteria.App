@@ -47,10 +47,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.dgvDetalles = new System.Windows.Forms.DataGridView();
             this.ColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColAcciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColProducto = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColProducto = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColAcciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +68,7 @@
             // 
             this.txtFecha.Enabled = false;
             this.txtFecha.Location = new System.Drawing.Point(173, 38);
-            this.txtFecha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtFecha.Margin = new System.Windows.Forms.Padding(4);
             this.txtFecha.Name = "txtFecha";
             this.txtFecha.Size = new System.Drawing.Size(132, 22);
             this.txtFecha.TabIndex = 19;
@@ -76,7 +76,7 @@
             // btnAgregar
             // 
             this.btnAgregar.Location = new System.Drawing.Point(576, 138);
-            this.btnAgregar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAgregar.Margin = new System.Windows.Forms.Padding(4);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(100, 28);
             this.btnAgregar.TabIndex = 20;
@@ -89,7 +89,7 @@
             this.cboProducto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboProducto.FormattingEnabled = true;
             this.cboProducto.Location = new System.Drawing.Point(19, 140);
-            this.cboProducto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboProducto.Margin = new System.Windows.Forms.Padding(4);
             this.cboProducto.Name = "cboProducto";
             this.cboProducto.Size = new System.Drawing.Size(407, 24);
             this.cboProducto.TabIndex = 21;
@@ -147,7 +147,7 @@
             // txtCliente
             // 
             this.txtCliente.Location = new System.Drawing.Point(173, 70);
-            this.txtCliente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(4);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(501, 22);
             this.txtCliente.TabIndex = 27;
@@ -155,7 +155,7 @@
             // txtDescuento
             // 
             this.txtDescuento.Location = new System.Drawing.Point(173, 102);
-            this.txtDescuento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescuento.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescuento.Name = "txtDescuento";
             this.txtDescuento.Size = new System.Drawing.Size(132, 22);
             this.txtDescuento.TabIndex = 28;
@@ -163,7 +163,7 @@
             // txtCantidad
             // 
             this.txtCantidad.Location = new System.Drawing.Point(435, 140);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCantidad.Margin = new System.Windows.Forms.Padding(4);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(132, 22);
             this.txtCantidad.TabIndex = 29;
@@ -172,7 +172,7 @@
             // 
             this.txtSubTotal.Enabled = false;
             this.txtSubTotal.Location = new System.Drawing.Point(543, 308);
-            this.txtSubTotal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSubTotal.Margin = new System.Windows.Forms.Padding(4);
             this.txtSubTotal.Name = "txtSubTotal";
             this.txtSubTotal.Size = new System.Drawing.Size(132, 22);
             this.txtSubTotal.TabIndex = 30;
@@ -181,7 +181,7 @@
             // 
             this.txtTotal.Enabled = false;
             this.txtTotal.Location = new System.Drawing.Point(543, 340);
-            this.txtTotal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTotal.Margin = new System.Windows.Forms.Padding(4);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.Size = new System.Drawing.Size(132, 22);
             this.txtTotal.TabIndex = 31;
@@ -189,22 +189,24 @@
             // btnAceptar
             // 
             this.btnAceptar.Location = new System.Drawing.Point(227, 377);
-            this.btnAceptar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAceptar.Margin = new System.Windows.Forms.Padding(4);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(100, 28);
             this.btnAceptar.TabIndex = 32;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click_1);
             // 
             // btnCancelar
             // 
             this.btnCancelar.Location = new System.Drawing.Point(351, 377);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 28);
             this.btnCancelar.TabIndex = 33;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click_1);
             // 
             // label7
             // 
@@ -223,12 +225,12 @@
             this.dgvDetalles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetalles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColId,
-            this.ColAcciones,
+            this.ColProducto,
             this.ColCantidad,
             this.ColPrecio,
-            this.ColProducto});
+            this.ColAcciones});
             this.dgvDetalles.Location = new System.Drawing.Point(4, 172);
-            this.dgvDetalles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvDetalles.Margin = new System.Windows.Forms.Padding(4);
             this.dgvDetalles.Name = "dgvDetalles";
             this.dgvDetalles.ReadOnly = true;
             this.dgvDetalles.RowHeadersWidth = 51;
@@ -244,13 +246,13 @@
             this.ColId.Visible = false;
             this.ColId.Width = 125;
             // 
-            // ColAcciones
+            // ColProducto
             // 
-            this.ColAcciones.HeaderText = "Acciones";
-            this.ColAcciones.MinimumWidth = 6;
-            this.ColAcciones.Name = "ColAcciones";
-            this.ColAcciones.ReadOnly = true;
-            this.ColAcciones.Width = 125;
+            this.ColProducto.HeaderText = "Producto";
+            this.ColProducto.MinimumWidth = 6;
+            this.ColProducto.Name = "ColProducto";
+            this.ColProducto.ReadOnly = true;
+            this.ColProducto.Width = 125;
             // 
             // ColCantidad
             // 
@@ -268,13 +270,13 @@
             this.ColPrecio.ReadOnly = true;
             this.ColPrecio.Width = 125;
             // 
-            // ColProducto
+            // ColAcciones
             // 
-            this.ColProducto.HeaderText = "Producto";
-            this.ColProducto.MinimumWidth = 6;
-            this.ColProducto.Name = "ColProducto";
-            this.ColProducto.ReadOnly = true;
-            this.ColProducto.Width = 125;
+            this.ColAcciones.HeaderText = "Acciones";
+            this.ColAcciones.MinimumWidth = 6;
+            this.ColAcciones.Name = "ColAcciones";
+            this.ColAcciones.ReadOnly = true;
+            this.ColAcciones.Width = 125;
             // 
             // FrmNuevoPresupuesto
             // 
@@ -299,7 +301,7 @@
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.txtFecha);
             this.Controls.Add(this.lblPresupuestoNro);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmNuevoPresupuesto";
             this.Text = "r";
             this.Load += new System.EventHandler(this.FrmNuevoPresupuesto_Load);
@@ -330,9 +332,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dgvDetalles;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColAcciones;
+        private System.Windows.Forms.DataGridViewButtonColumn ColProducto;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColPrecio;
-        private System.Windows.Forms.DataGridViewButtonColumn ColProducto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColAcciones;
     }
 }
