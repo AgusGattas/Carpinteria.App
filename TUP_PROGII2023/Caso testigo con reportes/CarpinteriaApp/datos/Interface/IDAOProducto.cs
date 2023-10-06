@@ -9,6 +9,8 @@ namespace CarpinteriaApp.datos
 {
     internal interface IDAOProducto
     {
-        List<Producto> GetAll();
+        List<Producto> TraerProductos();
+        bool Crear (Presupuesto presupuesto);
+        int ProximosPresupuestos();
     }
 }

@@ -1,27 +1,27 @@
 ﻿using CarpinteriaApp.datos;
 using CarpinteriaApp.dominio;
-using CarpinteriaApp.Servicios;
+using CarpinteriaApp.IServicios;
+using CarpinteriaApp.IServicios.interfaces;
+
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.Services.Description;
 using System.Windows.Forms;
 
 namespace CarpinteriaApp.formularios
 {
     public partial class FrmAltaPresupuesto : Form
     {
-        private HelperDB helper;
+        //private HelperDB helper;
         private Presupuesto nuevo;
-        GestorProducto gestor;
+        IServicio servicio = null;
         public FrmAltaPresupuesto()
         {
             InitializeComponent();
-            helper = HelperDB.ObtenerInstancia();
-            CargarProductos();
-            //Crear nuevo presupuesto:
+            //helper = HelperDB.ObtenerInstancia();
             nuevo = new Presupuesto();
-            gestor = new GestorProducto(new ProductoDao());
-            
+            servicio = new Servicios();
 
         }
 
@@ -32,8 +32,14 @@ namespace CarpinteriaApp.formularios
             txtCliente.Text = "CONSUMIDOR FINAL";
             txtDto.Text = "0";
             this.ActiveControl = cboProductos; // Set foco al combo
+            CargarProductos();
         }
-
+        private void CargarProductos()
+        {
+            cboProductos.DataSource = servicio.ObtenerProductos();
+            cboProductos.ValueMember = "ProductoNro";
+            cboProductos.DisplayMember = "Nombre";
+        }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (cboProductos.Text.Equals(String.Empty))
@@ -48,7 +54,6 @@ namespace CarpinteriaApp.formularios
                 return;
             }
 
-
             foreach (DataGridViewRow row in dgvDetalles.Rows)
             {
                 if (row.Cells["colProd"].Value.ToString().Equals(cboProductos.Text))
@@ -58,18 +63,14 @@ namespace CarpinteriaApp.formularios
 
                 }
             }
+            Producto p = (Producto)cboProductos.SelectedItem;
 
-            DataRowView item = (DataRowView)cboProductos.SelectedItem;
+            int cant = Convert.ToInt32(txtCantidad.Text);
+            DetallePresupuesto detalle = new DetallePresupuesto(p, cant);
 
-            int prod = Convert.ToInt32(item.Row.ItemArray[0]);
-            string nom = item.Row.ItemArray[1].ToString();
-            double pre = Convert.ToDouble(item.Row.ItemArray[2]);
-            Producto p = new Producto(prod, nom, pre);
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-
-            DetallePresupuesto detalle = new DetallePresupuesto(p, cantidad);
             nuevo.AgregarDetalle(detalle);
-            dgvDetalles.Rows.Add(new object[] { item.Row.ItemArray[0], item.Row.ItemArray[1], item.Row.ItemArray[2], txtCantidad.Text });
+            
+            dgvDetalles.Rows.Add(new object[] { p.ProductoNro, p.Nombre, p.Precio, cant, "Quitar" });
 
             CalcularTotal();
         }
@@ -99,19 +100,10 @@ namespace CarpinteriaApp.formularios
             }
         }
 
-        private void CargarProductos()
-        {
-            DataTable table = helper.ConsultaSQL("SP_CONSULTAR_PRODUCTOS", null);
-            if (table != null)
-            {
-                cboProductos.DataSource = table;
-                cboProductos.DisplayMember = "n_producto";
-                cboProductos.ValueMember = "id_producto";
-            }
-        }
+        
         private void ProximoPresupuesto()
         {
-            int next = helper.ProximoPresupuesto();
+            int next = servicio.ProximoPresupuesto();
             if (next > 0)
                 lblNroPresupuesto.Text = "Presupuesto Nº: " + next.ToString();
             else
@@ -125,7 +117,7 @@ namespace CarpinteriaApp.formularios
             nuevo.Descuento = Convert.ToDouble(txtDto.Text);
             nuevo.Fecha = Convert.ToDateTime(txtFecha.Text);
 
-            if (helper.ConfirmarPresupuesto(nuevo))
+            if (servicio.CrearPresupuesto(nuevo))
             {
                 MessageBox.Show("Presupuesto registrado", "Informe", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
